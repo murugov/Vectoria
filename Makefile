@@ -14,44 +14,31 @@ LDFLAGS = -isystem /opt/homebrew/include -L/opt/homebrew/lib -lraylib \
 
 COMMON_INCLUDES = -I./include
 
-CORE_FILES     = src/Core/ChemicalEngine.cpp src/Core/LightManager.cpp src/Core/PhysicsEngine.cpp src/Core/Scene.cpp
-GAMEPLAY_FILES = src/Gameplay/CircleMolecule.cpp src/Gameplay/Heater.cpp src/Gameplay/MolecularContainer.cpp src/Gameplay/Plot.cpp \
-				 src/Gameplay/SquareMolecule.cpp src/Gameplay/TemperatureController.cpp src/Gameplay/Valve.cpp
+CORE_FILES     = src/Core/Controller.cpp src/Core/DrawManager.cpp src/Core/Scene.cpp
+SHAPES_FILES   = src/Core/Shapes/EllipseObject.cpp src/Core/Shapes/RectangleObject.cpp
 GRAPHICS_FILES = src/Graphic/Adapter.cpp src/Graphic/Camera.cpp src/Graphic/Canvas.cpp src/Graphic/Colors.cpp src/Graphic/SpriteMaterial.cpp
-UI_FILES       = src/UI/Button.cpp
+UI_FILES       = src/UI/Button.cpp src/UI/ToolBar.cpp src/UI/ToolManager.cpp
 
 WORK_DIR = ./work
 BUILD_DIR = ./work/build
 RUN_DIR = ./work/run
-TARGET = $(RUN_DIR)/react_program
+TARGET = $(RUN_DIR)/vectoria_program
 
-all: react
+all: vectoria
 
-react: main.cpp $(CORE_FILES) $(GAMEPLAY_FILES) $(GRAPHICS_FILES) $(UI_FILES)
+vectoria: main.cpp $(CORE_FILES) $(GRAPHICS_FILES) $(UI_FILES)
 	@mkdir -p $(WORK_DIR)
 	@mkdir -p $(BUILD_DIR) $(RUN_DIR)
 	@echo "-----------------------------------------------------------------------------------------"
-	$(CC) -o $(BUILD_DIR)/react_program $(FLAGS) $(LDFLAGS) main.cpp $(COMMON_INCLUDES) $(CORE_FILES) $(GAMEPLAY_FILES) $(GRAPHICS_FILES) $(UI_FILES)
-	@mv $(BUILD_DIR)/react_program $(TARGET)
+	$(CC) -o $(BUILD_DIR)/vectoria_program $(FLAGS) $(LDFLAGS) main.cpp $(COMMON_INCLUDES) $(CORE_FILES) $(GRAPHICS_FILES) $(UI_FILES)
+	@mv $(BUILD_DIR)/vectoria_program $(TARGET)
 	@echo "-----------------------------------------------------------------------------------------"
 
 
-run-react: react
+run-vectoria: vectoria
 	$(TARGET)
-
-button: button_test.cpp $(CORE_FILES) $(GAMEPLAY_FILES) $(GRAPHICS_FILES) $(UI_FILES)
-	@mkdir -p $(WORK_DIR)
-	@mkdir -p $(BUILD_DIR) $(RUN_DIR)
-	@echo "-----------------------------------------------------------------------------------------"
-	$(CC) -o $(BUILD_DIR)/button_program $(FLAGS) $(LDFLAGS) button_test.cpp $(COMMON_INCLUDES) $(CORE_FILES) $(GAMEPLAY_FILES) $(GRAPHICS_FILES) $(UI_FILES)
-	@mv $(BUILD_DIR)/button_program $(RUN_DIR)/button_program
-	@echo "-----------------------------------------------------------------------------------------"
-
-
-run-button: button
-	$(RUN_DIR)/button_program
 	
-run: run-react
+run: run-vectoria
 
 clean:
 	rm -rf $(WORK_DIR)
@@ -59,10 +46,10 @@ clean:
 help:
 	@echo "Available commands:"
 	@echo ""
-	@echo "  make react                   - compile a react"
-	@echo "  make run-react               - compile and run react"
-	@echo "  make run                     - compile and run react"
+	@echo "  make vectoria                - compile a vectoria"
+	@echo "  make run-vectoria            - compile and run vectoria"
+	@echo "  make run                     - compile and run vectoria"
 	@echo ""
 	@echo "  make clean                   - remove compiled programs"
 
-.PHONY: react run-react run clean help
+.PHONY: vectoria run-vectoria run clean help

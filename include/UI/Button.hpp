@@ -1,6 +1,8 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
+#include <memory>
+#include "Core/Object.hpp"
 #include "Graphic/SpriteMaterial.hpp"
 #include "Math/Vector.hpp"
 #include "UI/Command.hpp"
@@ -13,42 +15,51 @@ enum class ButtonState {
     Pressed
 };
 
-class Button {
-private:
+class Button : public Core::Object {
+protected:
     Graphic::SpriteMaterial material_;
-    Math::Vector2D size_;
     ButtonState state_;
     std::unique_ptr<Command> command_;
-    
+        
 public:
     // -------------------------------------------------------------------------------
     // --- Constructor ---
     
-    Button (
-            Graphic::SpriteMaterial&& material,
-            Math::Vector2D size)
-            : material_(std::move(material))
-            , size_(size)
+    Button (Math::Vector2D pos,
+            Math::Vector2D size,
+            Graphic::SpriteMaterial&& material)
+            : Core::Object(pos, size, true)
+            , material_(std::move(material))
             , state_(ButtonState::Normal)
             , command_(nullptr)
             {}
 
+    // --- Virtual Destructor ---
+
+    ~Button () override;
+
     // -------------------------------------------------------------------------------
     // --- Getters ---
 
-    Math::Vector2D size  () const { return size_; };
-    ButtonState    state () const { return state_; };
+    ButtonState state () const { return state_; }
     
     // -------------------------------------------------------------------------------
     // --- Setters ---
     
-    void setCommand (std::unique_ptr<Command> command) { command_ = std::move(command); };
-    void setState   (ButtonState state)                { state_ = state; };    
-
+    void setState   (ButtonState state)                { state_ = state; }    
+    void setCommand (std::unique_ptr<Command> command) { command_ = std::move(command); }
+    
     // -------------------------------------------------------------------------------
     // --- Methods Prototypes ---
     
     void click ();
+
+    // -------------------------------------------------------------------------------
+    // --- Virtual Methods Prototypes ---
+
+    bool contains (const Math::Vector2D& point) const override;
+    
+    void draw() const; 
 };
 
 } // namespace UI

@@ -1,9 +1,7 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include <memory> 
-#include "Core/GameObject.hpp"
-#include "Core/LightManager.hpp"
+#include "Core/DrawManager.hpp"
 #include "Graphic/Camera.hpp"
 #include "Graphic/Canvas.hpp"
 #include "Graphic/Texture.hpp"
@@ -12,25 +10,32 @@ namespace Core {
     
 class Scene {
 private:
-    Graphic::Canvas background_canvas_;
-    std::vector<std::unique_ptr<GameObject>> objects_ {};
-    LightManager light_manager_;
+    Graphic::Canvas document_canvas_;
+    DrawManager draw_manager_;
+    Graphic::Camera camera_;
 
 public:
     // -------------------------------------------------------------------------------
     // --- Сonstructor ---
 
     Scene (Math::Vector2D pos, int width, int height, const std::string& texture_path)
-        : background_canvas_(pos, width, height, Graphic::SpriteMaterial(Graphic::Texture(texture_path))) {}
+        : document_canvas_(pos, width, height, Graphic::SpriteMaterial(Graphic::Texture(texture_path)))
+        , camera_(pos, pos)
+        {}
 
     Scene (Math::Vector2D pos, int width, int height, Graphic::Texture&& texture)
-        : background_canvas_(pos, width, height, Graphic::SpriteMaterial(std::move(texture))) {}
+        : document_canvas_(pos, width, height, Graphic::SpriteMaterial(std::move(texture)))
+        ,camera_(pos, pos)
+        {}
             
     Scene (Math::Vector2D pos, int width, int height, Graphic::Color bg_color)
-        : background_canvas_(pos, width, height, Graphic::SpriteMaterial(bg_color)) {}
+        : document_canvas_(pos, width, height, Graphic::SpriteMaterial(bg_color))
+        ,camera_(pos, pos)
+        {}
 
-    Scene (Graphic::Canvas&& background) 
-        : background_canvas_(std::move(background)) {}
+    Scene (Graphic::Canvas&& document_canvas) 
+        : document_canvas_(std::move(document_canvas))
+        , camera_(document_canvas_.pos(), document_canvas_.pos()) {}
         
     // --- Destructor ---
 
@@ -39,24 +44,17 @@ public:
     // -------------------------------------------------------------------------------
     // --- Getters ---
     
-    const Graphic::Canvas& background () const { return background_canvas_; }
-    Graphic::Canvas&       background ()       { return background_canvas_; }
+    const Graphic::Canvas& canvas () const { return document_canvas_; }
+    Graphic::Canvas&       canvas ()       { return document_canvas_; }
+        
+    const DrawManager& drawManager () const { return draw_manager_; }
+    DrawManager&       drawManager ()       { return draw_manager_; }
     
-    const std::vector<std::unique_ptr<GameObject>>& objects () const { return objects_; }
-    
-    const LightManager& lightManager () const { return light_manager_; }
-
     // -------------------------------------------------------------------------------
     // --- Methods Prototypes ---
     
-    void bind   (const Graphic::Camera& camera) const;
-    void unbind (const Graphic::Camera& camera) const;
-
-    void addObject (std::unique_ptr<GameObject> obj);
-    void addLight  (const Light& obj);
-
-    void setAllObjects (bool state);
-    void setAllLights  (bool state);
+    void bind   () const;
+    void unbind () const;
 
     void update (float dt);
     void draw   () const;

@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     './work/build/react_program'
-relocations:     []
-...

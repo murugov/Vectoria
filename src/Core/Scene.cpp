@@ -1,5 +1,5 @@
 #include "Core/Scene.hpp"
-#include "Core/GameObject.hpp"
+#include "Core/DrawManager.hpp"
 #include "Graphic/Adapter.hpp"
 
 namespace Core {
@@ -7,31 +7,21 @@ namespace Core {
 // -------------------------------------------------------------------------------
 // --- Implementation Of Methods ---
 
-void Scene::bind (const Graphic::Camera& camera) const {
+void Scene::bind () const {
     // NOTE: Begin scissor mode (define screen area for following drawing)
-    Graphic::Adapter::beginScissorMode({ background_canvas_.pos(), background_canvas_.size() });
-    camera.begin();
+    Graphic::Adapter::beginScissorMode({ document_canvas_.pos(), document_canvas_.size() });
+    camera_.begin();
 }
 
-void Scene::unbind (const Graphic::Camera& camera) const {
-    camera.end();
+void Scene::unbind () const {
+    camera_.end();
     Graphic::Adapter::endScissorMode();
-}
-
-void Scene::addObject (std::unique_ptr<GameObject> obj) {
-    objects_.push_back(std::move(obj));
-}
-
-void Scene::setAllObjects (bool state) {
-    for (auto& object : objects_) {
-        object->setEnabled(state);
-    }
 }
 
 void Scene::update (float dt) {
     // TODO: Add updating light_manager_
 
-    for (auto& obj : objects_) {
+    for (auto& obj : draw_manager_.objects()) {
         if (obj && obj->isEnabled()) {
             obj->update(dt); 
         }
@@ -39,18 +29,21 @@ void Scene::update (float dt) {
 }
 
 void Scene::draw () const {
-    background_canvas_.draw();
+    this->bind();
     
-    for (const auto& obj : objects_) {
+    document_canvas_.draw();
+    
+    for (const auto& obj : draw_manager_.objects()) {
         if (obj->isEnabled()) {
             obj->draw();
         }
     }
+
+    this->unbind();
 }
 
 void Scene::clear () {
-    objects_.clear();
-    light_manager_.clear();
+    draw_manager_.clear();
 }
 
 } // namespace Core
