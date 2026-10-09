@@ -66,6 +66,22 @@ void Controller::run() {                // TODO: Make config.json
                 tool_manager_.activeTool().onMouseUp(world_mouse, activeScene());
             }
         }
+
+        if (Graphic::Adapter::isKeyPressed(KEY_DELETE) || Graphic::Adapter::isKeyPressed(KEY_BACKSPACE)) {
+            if (!scenes_.empty()) {
+                UI::ToolObject& active_tool = tool_manager_.activeTool();
+                
+                if (auto* selection_tool = dynamic_cast<UI::SelectionTool*>(&active_tool)) {
+                    Core::DrawObject* selected = selection_tool->selectedObject();
+                    
+                    if (selected) {
+                        activeScene().drawManager().removeObject(selected);
+                        
+                        selection_tool->clearSelection();
+                    }
+                }
+            }
+        }
         
         update(dt);
 

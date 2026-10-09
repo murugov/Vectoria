@@ -24,6 +24,16 @@ public:
     ~SelectionTool() override = default;
 
     // -------------------------------------------------------------------------------
+    // --- Getters ---
+    
+    Core::DrawObject* selectedObject() const { return selected_object_; }
+
+    // -------------------------------------------------------------------------------
+    // --- Setters ---
+        
+   void clearSelection() { selected_object_ = nullptr; }
+       
+    // -------------------------------------------------------------------------------
     // --- Virtual Methods Prototypes ---
     
     void onMouseDown (Math::Vector2D world_pos, Core::Scene& active_scene) override;

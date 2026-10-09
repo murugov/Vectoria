@@ -48,6 +48,8 @@ public:
     
     void addObject     (std::unique_ptr<DrawObject> obj);
     void setAllObjects (bool state);
+    void removeObject  (const DrawObject* obj);
+
 
     void update (float dt);
     void draw   () const;

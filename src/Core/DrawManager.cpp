@@ -19,6 +19,19 @@ void DrawManager::setAllObjects (bool state) {
     }
 }
 
+void DrawManager::removeObject (const DrawObject* obj) {
+    if (!obj) return;
+    
+    auto it = std::remove_if(objects_.begin(), objects_.end(), 
+        [obj](const std::unique_ptr<DrawObject>& current) {
+            return current.get() == obj;
+        });
+        
+    if (it != objects_.end()) {
+        objects_.erase(it, objects_.end());
+    }
+}
+
 void DrawManager::update (float dt) {
     for (auto& obj : objects_) {
         if (obj && obj->isEnabled()) {
