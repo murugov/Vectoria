@@ -33,6 +33,13 @@ public:
     float          strokeWidth () { return strokeWidth_; }
 
     // -------------------------------------------------------------------------------
+    // --- Setters ---
+
+    void setFillColor   (Graphic::Color color) { fillColor_   = color; }
+    void setStrokeColor (Graphic::Color color) { strokeColor_ = color; }
+    void setStrokeWidth (float width)          { strokeWidth_ = width; }
+    
+    // -------------------------------------------------------------------------------
     // --- Virtual Methods Prototypes ---
     
     virtual void draw () const = 0;

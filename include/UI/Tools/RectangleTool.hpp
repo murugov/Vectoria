@@ -6,7 +6,7 @@
 
 namespace UI {
 
-class RectangleTool : public ToolObject {
+class RectangleTool : public ToolObject, public DrawableToolObject {
 private:
     Math::Vector2D start_pos_;
     bool is_drawing_ = false;
@@ -29,6 +29,8 @@ public:
     void onMouseDown (Math::Vector2D world_pos, Core::Scene& active_scene) override;
     void onMouseMove (Math::Vector2D world_pos, Core::Scene& active_scene) override;
     void onMouseUp   (Math::Vector2D world_pos, Core::Scene& active_scene) override;
+
+    void draw() const override;
 };
 
 } // namespace UI

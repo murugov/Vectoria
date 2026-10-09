@@ -6,7 +6,11 @@ namespace Core {
 // --- Implementation Of Methods ---
 
 void DrawManager::addObject (std::unique_ptr<DrawObject> obj) {
-    objects_.push_back(std::move(obj));
+    if (obj) {
+            obj->setFillColor(active_palette_color_);
+            
+            objects_.push_back(std::move(obj));
+    }
 }
 
 void DrawManager::setAllObjects (bool state) {

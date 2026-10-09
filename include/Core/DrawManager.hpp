@@ -10,6 +10,7 @@ namespace Core {
 class DrawManager {
 private:
     std::vector<std::unique_ptr<DrawObject>> objects_ {};
+    Graphic::Color active_palette_color_ = Graphic::Colors::Black;
 
 public:
     // -------------------------------------------------------------------------------
@@ -36,6 +37,11 @@ public:
 
     const std::vector<std::unique_ptr<DrawObject>>& objects     () const { return objects_; }
     size_t                                          objectCount () const { return objects_.size(); }
+
+    // -------------------------------------------------------------------------------
+    // --- Setters ---
+
+    void setActivePaletteColor (Graphic::Color color) { active_palette_color_ = color; }
 
     // -------------------------------------------------------------------------------
     // --- Methods Prototypes ---

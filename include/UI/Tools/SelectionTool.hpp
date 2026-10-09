@@ -1,28 +1,27 @@
-#ifndef ELLIPSE_TOOL_HPP
-#define ELLIPSE_TOOL_HPP
+#ifndef SELLECT_TOOL_HPP
+#define SELLECT_TOOL_HPP
 
-#include "Core/Shapes/EllipseObject.hpp"
-#include "Graphic/Colors.hpp"
+#include "Core/DrawObject.hpp"
 #include "UI/ToolObject.hpp"
 
 namespace UI {
 
-class EllipseTool : public ToolObject, public DrawableToolObject {
+class SelectionTool : public ToolObject, public DrawableToolObject {
 private:
     Math::Vector2D start_pos_;
-    bool is_drawing_ = false;
+    bool is_dragging_ = false;
     
-    Core::EllipseObject* current_shape_ = nullptr; 
+    Core::DrawObject* selected_object_ = nullptr; 
 
 public:
     // -------------------------------------------------------------------------------
     // --- Сonstructor ---
     
-    EllipseTool () = default;
+    SelectionTool() = default;
 
     // --- Virtual Destructor ---
     
-    ~EllipseTool () override = default;
+    ~SelectionTool() override = default;
 
     // -------------------------------------------------------------------------------
     // --- Virtual Methods Prototypes ---
@@ -31,7 +30,7 @@ public:
     void onMouseMove (Math::Vector2D world_pos, Core::Scene& active_scene) override;
     void onMouseUp   (Math::Vector2D world_pos, Core::Scene& active_scene) override;
 
-    void draw() const override;
+    void draw () const override;
 };
 
 } // namespace UI

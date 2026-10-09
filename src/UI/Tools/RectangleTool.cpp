@@ -1,5 +1,8 @@
-#include "UI/Tools/RectangleTool.hpp"
 #include "Core/Scene.hpp"
+#include "Graphic/Adapter.hpp"
+#include "Graphic/Colors.hpp"
+#include "Math/Vector.hpp"
+#include "UI/Tools/RectangleTool.hpp"
 
 namespace UI {
 
@@ -38,6 +41,12 @@ void RectangleTool::onMouseUp (Math::Vector2D /*world_pos*/, Core::Scene& /*acti
     
     is_drawing_ = false;
     current_shape_ = nullptr; 
+}
+
+void RectangleTool::draw () const {
+    if (is_drawing_) {
+        Graphic::Adapter::drawSelectBox({ current_shape_->pos(), current_shape_->size() }, Graphic::Colors::Gray);
+    }
 }
 
 } // namespace UI

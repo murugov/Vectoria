@@ -15,7 +15,7 @@ public:
     
     // --- Virtual Destructor ---
     virtual ~ToolObject() = default;
-
+    
     // -------------------------------------------------------------------------------
     // --- Virtual Methods Prototypes ---
     
@@ -27,6 +27,18 @@ public:
 
     // NOTE: Called in the controller when the user releases the mouse button.
     virtual void onMouseUp   (Math::Vector2D mouse_pos, Core::Scene& active_scene) = 0;
+};
+
+class DrawableToolObject {
+public:
+    // --- Virtual Destructor ---
+
+    virtual ~DrawableToolObject() = default;
+    
+    // -------------------------------------------------------------------------------
+    // --- Virtual Methods Prototypes ---
+
+    virtual void draw() const = 0; 
 };
 
 } // namespace UI

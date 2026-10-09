@@ -1,7 +1,8 @@
-#include "UI/Tools/EllipseTool.hpp"
 #include "Core/Scene.hpp"
 #include "Graphic/Adapter.hpp"
+#include "Graphic/Colors.hpp"
 #include "Math/Vector.hpp"
+#include "UI/Tools/EllipseTool.hpp"
 
 namespace UI {
     
@@ -39,6 +40,12 @@ void EllipseTool::onMouseUp(Math::Vector2D /*world_pos*/, Core::Scene& /*active_
     
     is_drawing_ = false;
     current_shape_ = nullptr; 
+}
+
+void EllipseTool::draw () const {
+    if (is_drawing_) {
+        Graphic::Adapter::drawSelectBox({ current_shape_->pos(), current_shape_->size() }, Graphic::Colors::Gray);
+    }
 }
 
 } // namespace UI

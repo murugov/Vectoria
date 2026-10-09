@@ -19,7 +19,7 @@ SHAPES_FILES   = src/Core/Shapes/EllipseObject.cpp src/Core/Shapes/RectangleObje
 GRAPHICS_FILES = src/Graphic/Adapter.cpp src/Graphic/Camera.cpp src/Graphic/Canvas.cpp src/Graphic/Colors.cpp src/Graphic/SpriteMaterial.cpp
 UI_FILES       = src/UI/Button.cpp src/UI/ToolBar.cpp src/UI/ToolManager.cpp
 CONTROLS	   = src/UI/Controls/RectangleButton.cpp
-TOOLS		   = src/UI/Tools/EllipseTool.cpp src/UI/Tools/RectangleTool.cpp
+TOOLS		   = src/UI/Tools/EllipseTool.cpp src/UI/Tools/RectangleTool.cpp src/UI/Tools/SelectionTool.cpp
 
 WORK_DIR = ./work
 BUILD_DIR = ./work/build
