@@ -13,8 +13,7 @@ namespace UI {
 class ToolBar : public Core::Object {
 private:
     Graphic::Canvas ui_canvas_; 
-
-    std::vector<std::unique_ptr<Button>> buttons_;
+    std::vector<std::unique_ptr<Button>> buttons_;  // tool_buttons_
 
 public:
     // -------------------------------------------------------------------------------
@@ -25,7 +24,7 @@ public:
         , ui_canvas_(pos, static_cast<int>(size.x()), static_cast<int>(size.y()), Graphic::Colors::Red) 
     {}
 
-    // --- Destructor ---
+    // --- Virtual Destructor ---
     
     ~ToolBar() override = default;
 

@@ -21,7 +21,7 @@ public:
         : Object(pos, size, state) {}
 
 
-    // --- Destructor ---
+    // --- Virtual Destructor ---
     
     ~DrawObject () override = default;
 
@@ -33,7 +33,7 @@ public:
     float          strokeWidth () { return strokeWidth_; }
 
     // -------------------------------------------------------------------------------
-    // --- Pure Virtual Methods ---
+    // --- Virtual Methods Prototypes ---
     
     virtual void draw () const = 0;
 };

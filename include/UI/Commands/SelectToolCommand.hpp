@@ -10,14 +10,11 @@ class SelectToolCommand : public Command {
 private:
     ToolManager& tool_manager_;
     size_t tool_index_;
-
 public:
     SelectToolCommand(ToolManager& manager, size_t index) 
         : tool_manager_(manager), tool_index_(index) {}
 
-    void execute() override {
-        tool_manager_.selectTool(tool_index_);
-    }
+    void execute() override { tool_manager_.selectTool(tool_index_); }
 };
 
 } // namespace UI

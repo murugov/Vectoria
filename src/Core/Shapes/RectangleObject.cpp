@@ -1,4 +1,5 @@
 #include "Core/Shapes/RectangleObject.hpp"
+#include "Graphic/Adapter.hpp"
 
 namespace Core {
 
@@ -11,7 +12,7 @@ bool RectangleObject::contains(const Math::Vector2D& point) const {
 }
 
 void RectangleObject::draw () const {
-
+    Graphic::Adapter::drawRectangle({ pos_, size_ }, fillColor_);     // FIXME: Hardcoded color
 }
 
 } // namespace Core

@@ -4,21 +4,22 @@
 #include "UI/Button.hpp"
 
 namespace UI {
+
 class RectangleButton : public Button {
 public:
     // -------------------------------------------------------------------------------
     // --- Base Class Constructor ---
-
+    
     using Button::Button;
 
-    // --- Destrctor ---
+    // --- Virtual Destructor ---
 
-    ~RectangleButton () override;
+    ~RectangleButton() override = default;
 
     // -------------------------------------------------------------------------------
-    // --- Virtual Methods Prototypes ---
-        
-    void draw() const override;
+    // Virtual Methods Prototypes
+    
+    void draw () const override;
 };
 
 } // namespace UI

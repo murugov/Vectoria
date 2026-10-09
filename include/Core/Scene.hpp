@@ -11,8 +11,8 @@ namespace Core {
 class Scene {
 private:
     Graphic::Canvas document_canvas_;
-    DrawManager draw_manager_;
     Graphic::Camera camera_;
+    DrawManager draw_manager_;
 
 public:
     // -------------------------------------------------------------------------------
@@ -46,7 +46,10 @@ public:
     
     const Graphic::Canvas& canvas () const { return document_canvas_; }
     Graphic::Canvas&       canvas ()       { return document_canvas_; }
-        
+
+    const Graphic::Camera& camera () const { return camera_; }
+    Graphic::Camera&       camera ()       { return camera_; }
+    
     const DrawManager& drawManager () const { return draw_manager_; }
     DrawManager&       drawManager ()       { return draw_manager_; }
     

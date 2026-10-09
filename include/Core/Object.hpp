@@ -32,12 +32,12 @@ public:
     // -------------------------------------------------------------------------------
     // --- Setters ---
     
-    void setPosition (const Math::Vector2D& pos)  { pos_ = pos; }
-    void setSize     (const Math::Vector2D& size) { size_ = size; }
-    void setEnabled  (bool enabled)               { enabled_ = enabled; }
+    void setPos     (const Math::Vector2D& pos)  { pos_ = pos; }
+    void setSize    (const Math::Vector2D& size) { size_ = size; }
+    void setEnabled (bool enabled)               { enabled_ = enabled; }
     
     // -------------------------------------------------------------------------------
-    // --- Pure Virtual Methods ---
+    // --- Virtual Methods Prototypes ---
     
     virtual void update   (float /*dt*/) {}
     virtual bool contains (const Math::Vector2D& point) const = 0;

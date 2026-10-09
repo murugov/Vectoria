@@ -36,7 +36,7 @@ public:
 
     // --- Virtual Destructor ---
 
-    ~Button () override;
+    ~Button () override = default;
 
     // -------------------------------------------------------------------------------
     // --- Getters ---
@@ -56,10 +56,10 @@ public:
 
     // -------------------------------------------------------------------------------
     // --- Virtual Methods Prototypes ---
-
-    bool contains (const Math::Vector2D& point) const override;
     
-    void draw() const; 
+    virtual void draw () const = 0;
+    
+    bool contains (const Math::Vector2D& point) const override;
 };
 
 } // namespace UI

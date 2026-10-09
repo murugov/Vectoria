@@ -3,6 +3,7 @@
 
 #include "Graphic/SpriteMaterial.hpp"
 #include "Math/Transform.hpp"
+#include "Math/Vector.hpp"
 
 namespace Graphic {
 
@@ -61,9 +62,20 @@ public:
     const SpriteMaterial& material () const { return material_; }
 
     // -------------------------------------------------------------------------------
+    // --- Setters ---
+
+    void setPos    (Math::Vector2D pos)  { transform_.pos = pos; }
+    void setX      (int x)               { transform_.pos.setX(static_cast<float>(x)); }
+    void setY      (int y)               { transform_.pos.setX(static_cast<float>(y)); }
+    void setSize   (Math::Vector2D size) { transform_.size = size; }
+    void setWidth  (int width)           { transform_.size.setX(static_cast<float>(width)); }
+    void setHeight (int height)          { transform_.size.setX(static_cast<float>(height)); }
+    void setScale  (float scale)         { transform_.scale = scale; }
+    
+    // -------------------------------------------------------------------------------
     // --- Methods Prototypes ---
     
-    void draw () const;  // TODO: Add "float rotation_angle = 0.0f"
+    void draw () const;
 };
 
 } // namespace Graphic

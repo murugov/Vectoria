@@ -5,7 +5,7 @@
 namespace Graphic {
     
 // -------------------------------------------------------------------------------
-// --- Methods ---
+// --- Implementation Of Methods  ---
 
 Math::Vector2D SpriteMaterial::getSize () const {
     return std::visit([](const auto& arg) -> Math::Vector2D {

@@ -16,11 +16,11 @@ public:
     // -------------------------------------------------------------------------------
     // --- Constructor ---
     
-    ToolManager() = default;
+    ToolManager () = default;
 
     // --- Destructor ---
     
-    ~ToolManager() = default;
+    ~ToolManager () = default;
 
     // -------------------------------------------------------------------------------
     // --- Getters ---
@@ -28,8 +28,8 @@ public:
     const ToolObject& activeTool () const { return *tools_[active_tool_index_]; }
     ToolObject&       activeTool ()       { return *tools_[active_tool_index_]; }
     
-    size_t activeToolIndex() const { return active_tool_index_; }
-    size_t toolCount()       const { return tools_.size(); }
+    size_t activeToolIndex () const { return active_tool_index_; }
+    size_t toolCount ()       const { return tools_.size(); }
 
     // -------------------------------------------------------------------------------
     // --- Methods Prototypes ---

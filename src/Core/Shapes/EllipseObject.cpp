@@ -1,4 +1,6 @@
 #include "Core/Shapes/EllipseObject.hpp"
+#include "Graphic/Adapter.hpp"
+#include "Graphic/Colors.hpp"
 
 namespace Core {
 
@@ -17,9 +19,8 @@ bool EllipseObject::contains(const Math::Vector2D& point) const {
      return (dx * dx) * (r_y * r_y) + (dy * dy) * (r_x * r_x) <= (r_x * r_x) * (r_y * r_y);
 }
 
-void EllipseObject::draw () const {
-
+void EllipseObject::draw() const {
+    Graphic::Adapter::drawEllipse({ pos_, size_ }, fillColor_);
 }
-
 
 } // namespace Core

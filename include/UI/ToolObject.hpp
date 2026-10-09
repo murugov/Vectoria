@@ -17,8 +17,8 @@ public:
     virtual ~ToolObject() = default;
 
     // -------------------------------------------------------------------------------
-    // --- Pure Virtual Methods ---
-
+    // --- Virtual Methods Prototypes ---
+    
     // NOTE: Called in the controller when the user clicks the mouse button on the canvas.
     virtual void onMouseDown (Math::Vector2D mouse_pos, Core::Scene& active_scene) = 0;
 

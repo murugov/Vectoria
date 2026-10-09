@@ -62,6 +62,8 @@ public:
     void handleMouseClick(Math::Vector2D mouse_pos);
 
     void renderAll();
+
+    void registerTool(Math::Vector2D pos,Math::Vector2D size, std::unique_ptr<UI::ToolObject> tool, Graphic::SpriteMaterial&& material);
 };
 
 } // namespace Core

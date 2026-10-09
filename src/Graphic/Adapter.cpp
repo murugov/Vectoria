@@ -144,6 +144,8 @@ Math::Vector2D Adapter::getMouseWheelMoveV () {
 // -------------------------------------------------------------------------------
 // --- Basic Shapes Drawing Functions ---
 
+// FIXME: It need to replace color with material 
+
 void Adapter::drawPixel (const Math::Vector2D& pos, Color color) {
     ::DrawPixelV({ pos.x(), pos.y() }, color);
 }
@@ -152,18 +154,28 @@ void Adapter::drawLine (const Math::Vector2D& start_pos, const Math::Vector2D& e
     ::DrawLineEx({ start_pos.x(), start_pos.y() }, { end_pos.x(), end_pos.y() }, thick, color);
 }
 
-void Adapter::drawCircle (const Math::Circle& circle, Color color) {
-    ::DrawCircleV({ circle.pos.x(), circle.pos.y() }, circle.radius, color);
+void Adapter::drawCircle (const Math::Transform2D& transform, Color color) {
+    ::DrawCircleV({ transform.pos.x(), transform.pos.y() }, transform.size.x() / 2.0f, color);
 }
 
-void Adapter::drawRectangle (const Math::Rectangle& rect, Color color) {
-    ::DrawRectangleV({ rect.pos.x(), rect.pos.y() }, { rect.size.x(), rect.size.y() }, color);
+void Adapter::drawEllipse (const Math::Transform2D& transform, Color color) {
+    float r_x = transform.size.x() / 2.0f;
+    float r_y = transform.size.y() / 2.0f;
+
+    float center_x = transform.pos.x() + r_x;
+    float center_y = transform.pos.y() + r_y;
+
+    ::DrawEllipse(static_cast<int>(center_x), static_cast<int>(center_y), r_x, r_y, color);
+}
+
+void Adapter::drawRectangle (const Math::Transform2D& transform, Color color) {
+    ::DrawRectangleV({ transform.pos.x(), transform.pos.y() }, { transform.size.x(), transform.size.y() }, color);
 } 
 
-void Adapter::drawTriangle (const Math::Triangle& triangle, Color color) {
-    ::DrawTriangle({ triangle.v1.x(), triangle.v1.y() },
-                   { triangle.v2.x(), triangle.v2.y() },
-                   { triangle.v3.x(), triangle.v3.y() }, color);
+void Adapter::drawTriangle (const Math::Vector2D v1, const Math::Vector2D v2, const Math::Vector2D v3, Color color) {
+    ::DrawTriangle({ v1.x(), v1.y() },
+                   { v2.x(), v2.y() },
+                   { v3.x(), v3.y() }, color);
 }
 
 void Adapter::drawVector (const Math::Transform2D& transform, Color color, float thick) {
@@ -190,6 +202,37 @@ void Adapter::drawVector (const Math::Transform2D& transform, Color color, float
     ::DrawLineEx(end_pos, ::Vector2 { end_pos.x + arrowhead_1.x(), end_pos.y + arrowhead_1.y() }, thick, color);
     ::DrawLineEx(end_pos, ::Vector2 { end_pos.x + arrowhead_2.x(), end_pos.y + arrowhead_2.y() }, thick, color);
 }
+
+void Adapter::drawSelectBox (const Math::Transform2D& transform, Color color, float thick) {
+    float x = transform.pos.x();
+    float y = transform.pos.y();
+    float w = transform.size.x();
+    float h = transform.size.y();
+
+    const float dash_length = 6.0f; 
+    const float gap_length = 4.0f;  
+    const float step = dash_length + gap_length;
+
+    for (float dx = 0; dx < w; dx += step) {
+        float current_dash = std::min(dash_length, w - dx);
+        Adapter::drawLine({ x + dx, y },     { x + dx + current_dash, y },     color, thick);
+        Adapter::drawLine({ x + dx, y + h }, { x + dx + current_dash, y + h }, color, thick);
+    }
+
+    for (float dy = 0; dy < h; dy += step) {
+        float current_dash = std::min(dash_length, h - dy);
+        Adapter::drawLine({ x, y + dy },     { x, y + dy + current_dash },     color, thick);
+        Adapter::drawLine({ x + w, y + dy }, { x + w, y + dy + current_dash }, color, thick);
+    }
+
+    float center_x = x + w / 2.0f;
+    float center_y = y + h / 2.0f;
+    const float cross_size = 5.0f;
+
+    Adapter::drawLine({ center_x - cross_size, center_y }, { center_x + cross_size, center_y }, color, thick);
+    Adapter::drawLine({ center_x, center_y - cross_size }, { center_x, center_y + cross_size }, color, thick);
+}
+
 
 // -------------------------------------------------------------------------------
 // --- Texture Drawing Functions ---

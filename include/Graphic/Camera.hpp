@@ -46,6 +46,8 @@ public:
     void begin () const;
     void end   () const;
     void lookAt (const Math::Vector2D& world_pos);
+
+    Math::Vector2D screenToWorld (const Math::Vector2D& screen_pos) const;
 };
 
 } // namespace Graphic

@@ -5,7 +5,6 @@
 #include <raylib.h>
 #include "Graphic/Colors.hpp"
 #include "Graphic/Texture.hpp"
-#include "Math/Geometry.hpp"
 #include "Math/Transform.hpp"
 #include "Math/Vector.hpp"
 
@@ -40,9 +39,9 @@ public:
     static void clearBackground  (Color color);
     static void beginScissorMode (const Math::Transform2D& transform);
     static void endScissorMode   (); 
-
+    
     // -------------------------------------------------------------------------------
-    // Timing-related functions
+    // --- Timing-related functions ---
     
     static void   setTargetFPS (int fps);
     static float  getFrameTime ();
@@ -78,10 +77,12 @@ public:
 
     static void drawPixel     (const Math::Vector2D& pos, Color color);
     static void drawLine      (const Math::Vector2D& start_pos, const Math::Vector2D& end_pos, Color color, float thick = 1.0f);
-    static void drawCircle    (const Math::Circle& circle, Color color);
-    static void drawRectangle (const Math::Rectangle& rect, Color color);
-    static void drawTriangle  (const Math::Triangle& triangle, Color color);
+    static void drawCircle    (const Math::Transform2D& transform, Color color);
+    static void drawEllipse   (const Math::Transform2D& transform, Color color); 
+    static void drawRectangle (const Math::Transform2D& transform, Color color);
+    static void drawTriangle  (const Math::Vector2D v1, const Math::Vector2D v2, const Math::Vector2D v3, Color color);
     static void drawVector    (const Math::Transform2D& transform, Color color, float thick = 1.0f);
+    static void drawSelectBox (const Math::Transform2D& transform, Color color, float thick = 1.0f);
 
     // -------------------------------------------------------------------------------
     // --- Texture Drawing Functions ---

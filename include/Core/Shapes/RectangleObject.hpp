@@ -13,12 +13,12 @@ public:
     RectangleObject(Math::Vector2D pos, Math::Vector2D size)
         : DrawObject(pos, size) {}
 
-    // --- Destructor ---
+    // --- Virtual Destructor ---
     
     ~RectangleObject() override = default;
 
     // -------------------------------------------------------------------------------
-    // --- Pure Virtual Methods ---
+    // --- Virtual Methods Prototypes ---
 
     bool contains (const Math::Vector2D& point) const override;
 
