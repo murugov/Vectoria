@@ -12,14 +12,15 @@ FLAGS = -DDEBUG -D_DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Wc++17-co
 LDFLAGS = -isystem /opt/homebrew/include -L/opt/homebrew/lib -lraylib \
           -framework OpenGL -framework Cocoa -framework IOKit
 
-COMMON_INCLUDES = -I./include
+COMMON_INCLUDES = -I./include -I./src
 
-CORE_FILES     = src/Core/Controller.cpp src/Core/DrawManager.cpp src/Core/Scene.cpp
-SHAPES_FILES   = src/Core/Shapes/EllipseObject.cpp src/Core/Shapes/RectangleObject.cpp
-GRAPHICS_FILES = src/Graphic/Adapter.cpp src/Graphic/Camera.cpp src/Graphic/Canvas.cpp src/Graphic/Colors.cpp src/Graphic/SpriteMaterial.cpp
-UI_FILES       = src/UI/Button.cpp src/UI/ToolBar.cpp src/UI/ToolManager.cpp
-CONTROLS	   = src/UI/Controls/RectangleButton.cpp
-TOOLS		   = src/UI/Tools/EllipseTool.cpp src/UI/Tools/RectangleTool.cpp src/UI/Tools/SelectionTool.cpp
+BASE_FILES     = src/Guids.cpp
+GRAPHICS_FILES = src/Graphics/CGraphicsAdapter.hpp
+SHAPES_FILES   = src/Shapes/CRectangle.hpp src/Shapes/CEllipse.hpp
+TOOLS_FILES    = src/Tools/CSelectTool.hpp
+WINDOWS_FILES  = src/Windows/CDocumentWindow.hpp
+
+ALL_SRCS = src/main.cpp $(BASE_FILES)
 
 WORK_DIR = ./work
 BUILD_DIR = ./work/build
@@ -28,14 +29,14 @@ TARGET = $(RUN_DIR)/vectoria_program
 
 all: vectoria
 
-vectoria: main.cpp $(CORE_FILES) $(GRAPHICS_FILES) $(SHAPES_FILES) $(UI_FILES) $(CONTROLS) $(TOOLS)
+vectoria: $(ALL_SRCS) $(GRAPHICS_FILES) $(SHAPES_FILES) $(TOOLS_FILES) $(WINDOWS_FILES)
 	@mkdir -p $(WORK_DIR)
 	@mkdir -p $(BUILD_DIR) $(RUN_DIR)
 	@echo "-----------------------------------------------------------------------------------------"
-	$(CC) $(COMMON_INCLUDES) -o $(BUILD_DIR)/vectoria_program $(FLAGS) $(LDFLAGS) main.cpp $(CORE_FILES) $(GRAPHICS_FILES) $(SHAPES_FILES) $(UI_FILES) $(CONTROLS) $(TOOLS)
+	$(CC) $(COMMON_INCLUDES) -o $(BUILD_DIR)/vectoria_program $(FLAGS) $(ALL_SRCS) $(LDFLAGS)
 	@mv $(BUILD_DIR)/vectoria_program $(TARGET)
+	@echo "Build successful: $(TARGET)"
 	@echo "-----------------------------------------------------------------------------------------"
-
 
 run-vectoria: vectoria
 	$(TARGET)
@@ -48,7 +49,7 @@ clean:
 help:
 	@echo "Available commands:"
 	@echo ""
-	@echo "  make vectoria                - compile a vectoria"
+	@echo "  make vectoria                - compile vectoria"
 	@echo "  make run-vectoria            - compile and run vectoria"
 	@echo "  make run                     - compile and run vectoria"
 	@echo ""
