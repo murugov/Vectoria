@@ -16,7 +16,7 @@ interface IWindow : public IUnknown {
     virtual void setBounds (const Math::Vector2D& pos, const Math::Vector2D& size) = 0;
     virtual void getBounds (Math::Vector2D* pos, Math::Vector2D* size) = 0;
     
-    virtual void show (bool visible) = 0;
+    virtual void show    (bool visible) = 0;
     virtual void refresh (IGraphicsAdapter* adapter) = 0;
 };
 

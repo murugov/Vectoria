@@ -63,16 +63,16 @@ public:
     void refresh (IGraphicsAdapter* adapter) override {
         if (!visible_) return;
 
-        // ! DEBUD !
-        
         adapter->beginScissorMode(pos_, size_);
-          
+        
+        // ! DEBUD !
+
         adapter->drawSelectBox(pos_, size_, Graphic::Colors::LightGray, 1.0f);
 
         // ! END OF DEBUD !
         
-        for (auto* pShape : shapes_) {
-            pShape->draw(adapter); 
+        for (auto* shape : shapes_) {
+            shape->draw(adapter); 
         }
 
         adapter->endScissorMode(); 

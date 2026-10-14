@@ -18,7 +18,7 @@ private:
     Math::Vector2D click_offset_ { 0.0f, 0.0f };
     Math::Vector2D last_mouse_pos_ { 0.0f, 0.0f };
     
-    Graphic::Color select_box_color_ { 200, 200, 200, 255 }; 
+    Graphic::Color select_box_color_ = Graphic::Colors::LightGray; 
 
 public:
     CSelectTool() = default;
@@ -32,7 +32,7 @@ public:
     // -------------------------------------------------------------------------------
     // --- Implementing IUnknown ---
 
-    bool queryInterface(const IID& iid, void** ppv) override {
+    bool queryInterface (const IID& iid, void** ppv) override {
         if (ppv == nullptr) return false;
 
         if (iid == IID_IUnknown || iid == IID_ITool) {
@@ -46,8 +46,8 @@ public:
         return true;
     }
 
-    void addRef() override { CUnknown::addRef(); }
-    void release() override { CUnknown::release(); }
+    void addRef  ()  override { CUnknown::addRef(); }
+    void release () override { CUnknown::release(); }
 
     // -------------------------------------------------------------------------------
     // --- Implementing ITool ---
@@ -82,7 +82,7 @@ public:
         }
     }
 
-    void onMouseMove(const Math::Vector2D& pos, IDocumentWindow* /*doc_ptr*/) override {
+    void onMouseMove (const Math::Vector2D& pos, IDocumentWindow* /*doc_ptr*/) override {
         if (is_dragging_ && selected_shape_) {
             Math::Vector2D shape_pos, shape_size;
             selected_shape_->getBounds(&shape_pos, &shape_size);
@@ -93,11 +93,11 @@ public:
         last_mouse_pos_ = pos;
     }
 
-    void onMouseUp(const Math::Vector2D& pos, IDocumentWindow* /*doc_ptr*/) override {
+    void onMouseUp (const Math::Vector2D& /*pos*/, IDocumentWindow* /*doc_ptr*/) override {
         is_dragging_ = false;
     }
 
-    void drawPreview(IGraphicsAdapter* adapter_ptr) override {
+    void drawPreview (IGraphicsAdapter* adapter_ptr) override {
         if (!adapter_ptr || !selected_shape_) return;
 
         Math::Vector2D shape_pos, shape_size;

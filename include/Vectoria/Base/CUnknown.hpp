@@ -17,7 +17,7 @@ public:
     
     CUnknown () : count_refs_(1) {}
 
-    // --- Destructor ---
+    // --- Virtual Destructor ---
     
     virtual ~CUnknown () {}
 

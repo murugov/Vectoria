@@ -8,11 +8,16 @@ namespace Vectoria {
 
 extern const IID IID_IColorPalette;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnon-virtual-dtor"
+
 interface IColorPalette : public IWindow {
-    virtual void selectColor    (const Graphic::Color& color) = 0;
-    virtual void getActiveColor (Graphic::Color* color) = 0;
+    virtual bool setActiveColor (const Graphic::Color& color) = 0;
+    virtual bool getActiveColor (Graphic::Color* color) = 0;
     virtual void updateSelection () = 0;
 };
+
+#pragma clang diagnostic pop
 
 } // namespace Vectoria
 

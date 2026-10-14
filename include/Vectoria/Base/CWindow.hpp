@@ -19,7 +19,7 @@ public:
     
     CWindow () = default;
 
-    // --- Destructor ---
+    // --- Virtual Destructor ---
     
     ~CWindow () override = default;
 

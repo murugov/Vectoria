@@ -12,7 +12,7 @@ extern const IID IID_IDocumentWindow;
 #pragma clang diagnostic ignored "-Wnon-virtual-dtor"
 
 interface IDocumentWindow : public IWindow {
-    virtual bool addShape      (IShape* shape) = 0;
+    virtual bool   addShape      (IShape* shape) = 0;
     virtual bool   removeShape   (IShape* shape) = 0;
     virtual bool   getShape      (size_t index, IShape** shape) = 0;
     virtual size_t getShapeCount () = 0;

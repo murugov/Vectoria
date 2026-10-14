@@ -11,7 +11,6 @@ struct GUID {
     unsigned short Data3;
     unsigned char  Data4[8];
 
-    // Оператор сравнения, чтобы QueryInterface работал мгновенно
     bool operator == (const GUID& other) const {
         return ::memcmp(this, &other, sizeof(GUID)) == 0;
     }
