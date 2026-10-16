@@ -1,9 +1,10 @@
 #ifndef C_ELLIPSE_HPP
 #define C_ELLIPSE_HPP
 
-#include "Vectoria/Base/CUnknown.hpp"
-#include "Vectoria/Interfaces/Components/IShape.hpp"
-#include "Vectoria/Shared/Colors.hpp"
+#include "Vectoria/Interfaces/Base/IShape.hpp"
+#include "Vectoria/Shared/Graphic/Colors.hpp"
+
+#include "Base/CUnknown.hpp"
 
 namespace Vectoria {
 

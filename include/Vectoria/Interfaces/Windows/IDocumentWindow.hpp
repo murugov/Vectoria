@@ -1,8 +1,8 @@
 #ifndef I_DOCUMENT_WINDOW_HPP
 #define I_DOCUMENT_WINDOW_HPP
 
-#include "Vectoria/Interfaces/Components/IShape.hpp"
-#include "Vectoria/Interfaces/Core/IWindow.hpp"
+#include "Vectoria/Interfaces/Base/IShape.hpp"
+#include "Vectoria/Interfaces/Base/IWindow.hpp"
 
 namespace Vectoria {
 

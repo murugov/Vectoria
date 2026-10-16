@@ -1,12 +1,13 @@
 #ifndef C_SELECT_TOOL_HPP
 #define C_SELECT_TOOL_HPP
 
-#include "Vectoria//Base/CUnknown.hpp"
-#include "Vectoria/Interfaces/Components/IShape.hpp"
-#include "Vectoria/Interfaces/Components/ITool.hpp"
+#include "Vectoria/Interfaces/Base/IShape.hpp"
+#include "Vectoria/Interfaces/Base/ITool.hpp"
 #include "Vectoria/Interfaces/Core/IGraphicsAdapter.hpp"
 #include "Vectoria/Interfaces/Windows/IDocumentWindow.hpp"
-#include "Vectoria/Shared/Colors.hpp"
+#include "Vectoria/Shared/Graphic/Colors.hpp"
+
+#include "Base/CUnknown.hpp"
 
 namespace Vectoria {
 
@@ -37,7 +38,8 @@ public:
 
         if (iid == IID_IUnknown || iid == IID_ITool) {
             *ppv = static_cast<ITool*>(this);
-        } else {
+        }
+        else {
             *ppv = nullptr;
             return false;
         }

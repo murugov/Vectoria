@@ -1,9 +1,13 @@
 #ifndef I_GRAPHICS_ADAPTER_HPP
 #define I_GRAPHICS_ADAPTER_HPP
 
-#include "Vectoria/Interfaces/Core/IUnknown.hpp"
-#include "Vectoria/Shared/Colors.hpp"
-#include "Vectoria/Shared/Vector.hpp"
+#include <string>
+
+#include "Vectoria/Interfaces/Base/IUnknown.hpp"
+#include "Vectoria/Shared/Graphic/Colors.hpp"
+#include "Vectoria/Shared/Graphic/Font.hpp"
+#include "Vectoria/Shared/Graphic/Texture.hpp"
+#include "Vectoria/Shared/Math/Vector.hpp"
 
 namespace Vectoria {
 
@@ -37,6 +41,9 @@ interface IGraphicsAdapter : public IUnknown {
     virtual bool isKeyDown          (int key) = 0;
     virtual bool isKeyReleased      (int key) = 0;
     virtual bool isKeyUp            (int key) = 0;
+    
+    virtual int getKeyPressed  () = 0;
+    virtual int getCharPressed () = 0;
 
     // -------------------------------------------------------------------------------
     // --- Input-related Functions: Mouse ---
@@ -59,10 +66,29 @@ interface IGraphicsAdapter : public IUnknown {
     virtual void drawEllipse   (const Math::Vector2D& center, const Math::Vector2D& radii, const Graphic::Color& color) = 0;
     virtual void drawRectangle (const Math::Vector2D& pos, const Math::Vector2D& size, const Graphic::Color& color) = 0;
     virtual void drawTriangle  (const Math::Vector2D& vec1, const Math::Vector2D& vec2, const Math::Vector2D& vec3, const Graphic::Color& color) = 0;
-    virtual void drawSelectBox (const Math::Vector2D& pos, const Math::Vector2D& size, const Graphic::Color& color, float thick = 1.0f) = 0;
-};
 
-bool createGraphicsAdapter(int width, int height, const char* title, IGraphicsAdapter** adapter);
+    virtual void drawCircleLines    (const Math::Vector2D& pos, float radius, const Graphic::Color& color, float thick = 1.0f) = 0;
+    virtual void drawEllipseLines   (const Math::Vector2D& center, const Math::Vector2D& radii, const Graphic::Color& color, float thick = 1.0f) = 0;
+    virtual void drawRectangleLines (const Math::Vector2D& pos, const Math::Vector2D& size, const Graphic::Color& color, float thick = 1.0f) = 0;
+    virtual void drawTriangleLines  (const Math::Vector2D& vec1, const Math::Vector2D& vec2, const Math::Vector2D& vec3, const Graphic::Color& color, float thick = 1.0f) = 0;
+        
+    virtual void drawSelectBox (const Math::Vector2D& pos, const Math::Vector2D& size, const Graphic::Color& color, float thick = 1.0f) = 0;
+
+    // -------------------------------------------------------------------------------
+    // --- Texture Drawing Functions ---
+    
+    virtual void drawTexture (const Graphic::Texture& texture, const Math::Vector2D& pos, const Math::Vector2D& size,
+                                float rotation = 0.0f, float scale = 1.0f, const Graphic::Color& color = Graphic::Colors::White) = 0;
+    
+    // -------------------------------------------------------------------------------
+    // --- Text Drawing Functions ---
+
+    virtual Graphic::Font loadFont   (const std::string& file_name, int font_size) = 0;
+    virtual void          unloadFont (const Graphic::Font& font) = 0;
+    
+    virtual void drawText (const std::string& text, Math::Vector2D pos, int font_size, const Graphic::Color& color,
+                                const Graphic::Font& font = { 0, 0 }, float spacing = 0.0f) = 0;
+};
 
 #pragma clang diagnostic pop
 

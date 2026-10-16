@@ -2,8 +2,10 @@
 #define C_DOCUMENT_WINDOW_HPP
 
 #include <vector>
-#include "Vectoria/Base/CWindow.hpp"
+
 #include "Vectoria/Interfaces/Windows/IDocumentWindow.hpp"
+
+#include "Base/CWindow.hpp"
 
 namespace Vectoria {
 

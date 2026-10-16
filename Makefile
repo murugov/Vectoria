@@ -15,11 +15,6 @@ LDFLAGS = -isystem /opt/homebrew/include -L/opt/homebrew/lib -lraylib \
 COMMON_INCLUDES = -I./include -I./src
 
 BASE_FILES     = src/Guids.cpp
-CORE_FILES 	   = src/Core/CController.hpp src/Core/CGraphicsAdapter.hpp
-SHAPES_FILES   = src/Shapes/CRectangle.hpp src/Shapes/CEllipse.hpp
-TOOLS_FILES    = src/Tools/CSelectTool.hpp
-WINDOWS_FILES  = src/Windows/CColorPalette.hpp src/Windows/CDocumentWindow.hpp src/Windows/CMainMenu.hpp \
-				 src/Windows/CToolPalette.hpp
 
 ALL_SRCS = src/main.cpp $(BASE_FILES)
 

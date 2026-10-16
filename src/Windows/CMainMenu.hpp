@@ -3,47 +3,69 @@
 
 #include <vector>
 #include <string>
-#include "Vectoria/Base/CWindow.hpp"
-#include "Vectoria/Interfaces/Windows/IMainMenu.hpp"
+#include <algorithm>
+
+#include "Vectoria/Interfaces/Base/IAction.hpp"
+#include "Vectoria/Interfaces/Core/IActionGroup.hpp"
+#include "Vectoria/Interfaces/Core/IEventListener.hpp"
 #include "Vectoria/Interfaces/Core/IGraphicsAdapter.hpp"
+#include "Vectoria/Interfaces/Windows/IMainMenu.hpp"
+#include "Vectoria/Shared/Graphic/Colors.hpp"
+#include "Vectoria/Shared/Graphic/Font.hpp"
+
+#include "Base/CWindow.hpp"
 
 namespace Vectoria {
 
-class CMainMenu : public CWindow, public IMainMenu {
+class CMainMenu : public CWindow, public IMainMenu, public IEventListener { 
 private:
-    struct MenuItem {
-        unsigned int id;
-        std::string label;
-        bool is_enabled;
-    };
+    std::vector<IAction*> root_actions_ {};
+    IAction*              active_submenu_ = nullptr;
+    unsigned int          hovered_item_id_ = 0;
 
-    std::vector<MenuItem> items_ {};
+    Graphic::Color        bg_color_ = Graphic::Colors::White;
+    Graphic::Font         menu_font_ {};
+    
+    float                 item_width_       = 70.0f;
+    float                 item_height_      = 25.0f; 
+    int                   font_size_root_   = 16;
+    int                   font_size_sub_    = 14; 
+    
+
 
 public:
     // -------------------------------------------------------------------------------
     // --- Constructor ---
     
-    CMainMenu () {
-        // ! DEBUG !
-        
-        items_.push_back({ 101, "File", true });
-        items_.push_back({ 102, "Edit", true });
-        items_.push_back({ 103, "Help", true });
+    CMainMenu () = default;
 
-        // ! END OF DEBUD !
+    // --- Destructor ---
+    
+    ~CMainMenu () override {
+        if (active_submenu_ != nullptr) {
+            active_submenu_->release();
+        }
+        for (auto* action : root_actions_) {
+            action->release();
+        }
     }
 
-    // --- Virtual Destructor ---
+    // -------------------------------------------------------------------------------
+    // --- Public method for configuring the menu from the outside ---
     
-    ~CMainMenu() override = default;
+    void addActionGroup (IAction* action_group) {
+        if (action_group != nullptr) {
+            action_group->addRef();
+            root_actions_.push_back(action_group);
+        }
+    }
 
     // -------------------------------------------------------------------------------
     // --- Implementing IUnknown ---
 
-    bool queryInterface(const IID& iid, void** ppv) override {
+    bool queryInterface (const IID& iid, void** ppv) override {
         if (ppv == nullptr) return false;
-
-        if (iid == IID_IUnknown || iid == IID_IWindow || iid == IID_IMainMenu) {
+        if (iid == IID_IUnknown || iid == IID_IWindow || iid == IID_IMainMenu || iid == IID_IEventListener) {
             *ppv = static_cast<IMainMenu*>(this); 
         } 
         else {
@@ -61,76 +83,93 @@ public:
     // -------------------------------------------------------------------------------
     // --- Implementing IWindow ---
 
-    void setBounds(const Math::Vector2D& pos, const Math::Vector2D& size) override {
+    void setBounds (const Math::Vector2D& pos, const Math::Vector2D& size) override {
         CWindow::setBounds(pos, size);
     }
 
-    void getBounds(Math::Vector2D* pos, Math::Vector2D* size) override {
+    void getBounds (Math::Vector2D* pos, Math::Vector2D* size) override {
         CWindow::getBounds(pos, size);
     }
 
-    void show(bool visible) override {
+    void show (bool visible) override {
         CWindow::show(visible);
-    }
-
-    void refresh(IGraphicsAdapter* adapter) override {
-        if (!visible_ || !adapter) return;
-
-        adapter->drawRectangle(pos_, size_, Graphic::Colors::LightGray);
-
-        float current_x = pos_.x() + 20.0f;
-        // float text_y = pos_.y() + 10.0f;
-
-        for (const auto& item : items_) {
-            Graphic::Color text_color = item.is_enabled ? Graphic::Colors::Black : Graphic::Colors::Gray;
-            
-            Math::Vector2D mouse_pos = adapter->getMousePosition();
-            
-            bool is_hovered = (mouse_pos.x() >= current_x && mouse_pos.x() <= current_x + 60.0f &&
-                               mouse_pos.y() >= pos_.y() && mouse_pos.y() <= pos_.y() + size_.y());
-
-            if (is_hovered && item.is_enabled) {
-                adapter->drawRectangle(Math::Vector2D{ current_x - 5.0f, pos_.y() + 2.0f }, 
-                                       Math::Vector2D{ 70.0f, size_.y() - 4.0f }, 
-                                       Graphic::Colors::Gray);
-                
-                if (adapter->isMouseButtonPressed(0)) {
-                    onMenuCommand(item.id);
-                }
-            }
-
-            // ! DEBUG !
-            adapter->drawSelectBox(Math::Vector2D{ current_x, pos_.y() + 5.0f }, 
-                                   Math::Vector2D{ 60.0f, size_.y() - 10.0f }, 
-                                   text_color, 1.0f);
-
-            current_x += 80.0f;
-
-            // ! END OF DEBUD !
+        if (!visible && active_submenu_ != nullptr) {
+            active_submenu_->release();
+            active_submenu_ = nullptr;
         }
-
-        adapter->drawLine(Math::Vector2D{ pos_.x(), pos_.y() + size_.y() }, 
-                          Math::Vector2D{ pos_.x() + size_.x(), pos_.y() + size_.y() }, 
-                          Graphic::Colors::DarkGray, 1.0f);
     }
 
     // -------------------------------------------------------------------------------
+    // --- UI Layout & Rendering (Immediate Mode) ---
+
+    void refresh (IGraphicsAdapter* adapter) override {
+        
+    }
+
+    // -------------------------------------------------------------------------------
+    // --- Implementing IEventListener ---
+    
+    bool onEvent (const Event& event) override {
+        
+    }
+    
+    // -------------------------------------------------------------------------------
     // --- Implementing IMainMenu ---
 
-    void setItemEnabled(unsigned int command_id, bool enabled) override {
-        for (auto& item : items_) {
-            if (item.id == command_id) {
-                item.is_enabled = enabled;
-                break;
-            }
-        }
+    void setColor (const Graphic::Color& color) override {
+        bg_color_ = color;
     }
+    
+    void setFont (const Graphic::Font& font) override {
+        menu_font_ = font;
+    }
+    
+//     void setItemEnabled (unsigned int command_id, bool enabled) override {
+//         IAction* target = findActionByID(command_id);
+//         if (target != nullptr) {
+//             target->setEnabled(enabled);
+//         }
+//     }
 
-    void onMenuCommand(unsigned int command_id) override {
-        if (command_id == 101) {
-            // click File
-        }
-    }
+//     void onMenuCommand (unsigned int command_id) override {
+//         IAction* target = findActionByID(command_id);
+//         if (target != nullptr && target->isEnabled()) {
+//             target->execute();
+//         }
+//     }
+
+// private:
+//     IAction* findActionByID (unsigned int id) {
+//         for (auto* action : root_actions_) {
+//             IAction* res = findRecursive(action, id);
+//             if (res != nullptr) return res;
+//         }
+//         return nullptr;
+//     }
+
+//     IAction* findRecursive (IAction* current, unsigned int id) {
+//         if (current == nullptr) return nullptr;
+//         if (current->getID() == id) return current;
+    
+//         if (current->isGroup()) {
+//             IAction* children[32] = { nullptr };
+//             size_t total = current->getChildren(children, 32);
+//             size_t count = std::min(total, size_t{ 32 });
+    
+//             IAction* found_target = nullptr;
+    
+//             for (size_t i = 0; i < count; ++i) {
+//                 if (children[i] != nullptr) {
+//                     if (found_target == nullptr) {
+//                         found_target = findRecursive(children[i], id);
+//                     }
+//                     children[i]->release(); 
+//                 }
+//             }
+//             return found_target;
+//         }
+//         return nullptr;
+//     }
 };
 
 } // namespace Vectoria

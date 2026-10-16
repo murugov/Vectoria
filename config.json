@@ -1,0 +1,36 @@
+{
+  "main_menu": {
+    "color": "LightGray", 
+    "font": {
+      "path": "assets/fonts/Inter-Regular.ttf",
+      "size": 24
+    },
+    "bounds": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 1280.0,
+      "height": 25.0
+    },
+    "structure": [
+      {
+        "id": 100,
+        "name": "File",
+        "children": [
+          { "id": 101, "name": "New" },
+          { "id": 102, "name": "Open" }
+        ]
+      },
+      {
+        "id": 200,
+        "name": "Edit",
+        "children": [
+          { "id": 201, "name": "Undo" }
+        ]
+      },
+      {
+        "id": 300,
+        "name": "Help"
+      }
+    ]
+  }
+}
